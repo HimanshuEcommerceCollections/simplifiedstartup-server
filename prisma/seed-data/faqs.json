@@ -1,0 +1,292 @@
+[
+  {
+    "key": "general",
+    "label": "General",
+    "sortOrder": 0,
+    "items": [
+      {
+        "question": "What is Simplified Startup?",
+        "answer": "We're a digital marketing agency that helps businesses grow online — SEO, ads, social media, websites, AI automation, and more. The whole idea is simple: show prices openly, do great work, and skip the sales games.",
+        "sortOrder": 0
+      },
+      {
+        "question": "Where are you based?",
+        "answer": "We're based in the Raleigh–Cary area of North Carolina, and we work with clients across the country.",
+        "sortOrder": 1
+      },
+      {
+        "question": "What size businesses do you work with?",
+        "answer": "Mostly small and mid-sized businesses — from brand-new startups to established local companies with several locations. If your business fits somewhere in that range, we can help.",
+        "sortOrder": 2
+      },
+      {
+        "question": "What industries do you work with?",
+        "answer": "A wide range: realtors, lawyers, therapists, dentists, doctors, restaurants, salons, gyms, home services, e-commerce, and more. We have dedicated pages for each industry we support.",
+        "sortOrder": 3
+      },
+      {
+        "question": "What makes you different from other agencies?",
+        "answer": "Two things. First, our prices are shown publicly — no “book a call to hear our rates.” Second, we lead with AI and automation, so we can do more work faster without cutting quality.",
+        "sortOrder": 4
+      }
+    ]
+  },
+  {
+    "key": "services",
+    "label": "Services",
+    "sortOrder": 1,
+    "items": [
+      {
+        "question": "What services do you offer?",
+        "answer": "Pretty much every marketing service: SEO, Google Ads, social media, website design, branding, email marketing, lead generation, AI automation, and more. See the full list on the Services page.",
+        "sortOrder": 0
+      },
+      {
+        "question": "Can I buy just one service, or do I have to pick a package?",
+        "answer": "Both work. You can buy any service on its own, pick a bundle (a few related services grouped together), or choose a full package for a bundle discount.",
+        "sortOrder": 1
+      },
+      {
+        "question": "Do you offer accounting or bookkeeping?",
+        "answer": "Not yet — it's listed as “coming soon” and we'll launch it once we have the right team in place.",
+        "sortOrder": 2
+      },
+      {
+        "question": "Do you build websites?",
+        "answer": "Yes. We build fast, mobile-friendly websites, single landing pages, and full e-commerce stores. Website design is one of our core services.",
+        "sortOrder": 3
+      },
+      {
+        "question": "Can you handle just my Google Business Profile or reviews?",
+        "answer": "Yes — individual services like Google Business Profile setup and review management can be booked on their own.",
+        "sortOrder": 4
+      },
+      {
+        "question": "Do you do AI-related work?",
+        "answer": "Yes, and it's a focus for us. AI automation, chatbots, workflow automation, and getting your business mentioned inside AI tools like ChatGPT are all services we offer.",
+        "sortOrder": 5
+      }
+    ]
+  },
+  {
+    "key": "pricing",
+    "label": "Pricing",
+    "sortOrder": 2,
+    "items": [
+      {
+        "question": "Where can I see your prices?",
+        "answer": "On every service page and on our main Pricing page. Every service and package has a clear price — no hidden fees, no gotcha upsells.",
+        "sortOrder": 0
+      },
+      {
+        "question": "Why do you show your prices publicly when most agencies don't?",
+        "answer": "Because we think it's the right thing to do. It respects your time, and it means the people who reach out already know what things cost — so conversations get straight to the point.",
+        "sortOrder": 1
+      },
+      {
+        "question": "Do you charge monthly or one-time?",
+        "answer": "Both. Some services (like SEO or social media management) are monthly; others (like a logo or a one-time website build) are one-time. The pricing on each service page makes it clear.",
+        "sortOrder": 2
+      },
+      {
+        "question": "Do bundles or packages save money?",
+        "answer": "Yes — packages come with roughly a 20% discount compared to buying each service on its own.",
+        "sortOrder": 3
+      }
+    ]
+  },
+  {
+    "key": "start",
+    "label": "Getting Started",
+    "sortOrder": 3,
+    "items": [
+      {
+        "question": "How do I get started with Simplified Startup?",
+        "answer": "Book a free strategy call through our Contact page. We'll talk about your goals, recommend the right service or package, and answer any questions before you commit to anything.",
+        "sortOrder": 0
+      },
+      {
+        "question": "Is the first call really free?",
+        "answer": "Yes — no charge, no pressure, no obligation. It's a real conversation to see if we're a good fit.",
+        "sortOrder": 1
+      },
+      {
+        "question": "What do I need to prepare before we start?",
+        "answer": "Not much. We'll send a short intake form covering your business, goals, existing accounts, and brand assets. We handle the rest.",
+        "sortOrder": 2
+      },
+      {
+        "question": "Do I need to already have a website?",
+        "answer": "No. If you don't have one, we can build it. If you do, we can work with it and improve it.",
+        "sortOrder": 3
+      }
+    ]
+  },
+  {
+    "key": "work",
+    "label": "How We Work",
+    "sortOrder": 4,
+    "items": [
+      {
+        "question": "How long until I see results?",
+        "answer": "It depends on the service. Paid ads and social media can produce results within days or weeks. SEO and content take longer — usually 3–6 months to see meaningful movement. We tell you what to expect up front.",
+        "sortOrder": 0
+      },
+      {
+        "question": "Will I be assigned a dedicated point of contact?",
+        "answer": "Yes. You'll have a main point of contact who handles your account and coordinates the specialists working on it.",
+        "sortOrder": 1
+      },
+      {
+        "question": "How often will we communicate?",
+        "answer": "For most clients: weekly or biweekly check-ins by email or short call, plus a monthly report. We're flexible — tell us what works.",
+        "sortOrder": 2
+      },
+      {
+        "question": "How do you report on results?",
+        "answer": "You get a plain-language monthly report showing what we did, what changed, and what's next — no dashboard full of jargon you'd need a translator for.",
+        "sortOrder": 3
+      },
+      {
+        "question": "Do you use AI in your work?",
+        "answer": "Yes — we use AI to speed up research, first drafts, and repetitive tasks. Our marketing team then reviews, edits, and finalizes everything. AI helps us go faster, not lower quality.",
+        "sortOrder": 4
+      },
+      {
+        "question": "Can I request changes to my strategy?",
+        "answer": "Absolutely. Your strategy is a plan, not a contract carved in stone. If something needs to change, we adjust.",
+        "sortOrder": 5
+      }
+    ]
+  },
+  {
+    "key": "seo",
+    "label": "SEO & Marketing",
+    "sortOrder": 5,
+    "items": [
+      {
+        "question": "What is SEO?",
+        "answer": "Search Engine Optimization — the work that helps your website show up higher in Google's free (unpaid) search results.",
+        "sortOrder": 0
+      },
+      {
+        "question": "How long does SEO take?",
+        "answer": "Usually 3–6 months to see meaningful movement, and 6–12 months for stronger results. Anyone promising rankings in 30 days is not being honest with you.",
+        "sortOrder": 1
+      },
+      {
+        "question": "What's the difference between SEO and Google Ads?",
+        "answer": "SEO is free traffic from Google, but it takes time to build. Google Ads are paid — you show up immediately, but you stop showing up when the budget runs out. Most businesses do both.",
+        "sortOrder": 2
+      },
+      {
+        "question": "Do I need to be on every social media platform?",
+        "answer": "No. Being on the right two or three platforms consistently beats being on all of them halfheartedly.",
+        "sortOrder": 3
+      },
+      {
+        "question": "What is a “money page”?",
+        "answer": "A page built around one specific service, business type, and location — like “SEO for realtors in Raleigh.” It's designed to rank for very specific searches with strong buying intent.",
+        "sortOrder": 4
+      },
+      {
+        "question": "What is AI search / GEO?",
+        "answer": "“GEO” is Generative Engine Optimization — the work of getting your business mentioned when someone asks ChatGPT, Gemini, Claude, or Perplexity for recommendations. It matters more every year.",
+        "sortOrder": 5
+      }
+    ]
+  },
+  {
+    "key": "contracts",
+    "label": "Contracts",
+    "sortOrder": 6,
+    "items": [
+      {
+        "question": "Do I have to sign a long-term contract?",
+        "answer": "No long lock-in contracts. Most services are month-to-month.",
+        "sortOrder": 0
+      },
+      {
+        "question": "Can I cancel anytime?",
+        "answer": "Yes. We ask for a short notice period (usually 30 days) so we can wrap things up cleanly.",
+        "sortOrder": 1
+      },
+      {
+        "question": "What happens if I pause services and want to come back?",
+        "answer": "You can. We keep your account details on file, and starting up again is quick.",
+        "sortOrder": 2
+      },
+      {
+        "question": "What happens to my website, content, and social accounts if we part ways?",
+        "answer": "They're yours. We build everything under your ownership, and you keep full access to all your accounts.",
+        "sortOrder": 3
+      }
+    ]
+  },
+  {
+    "key": "support",
+    "label": "Support",
+    "sortOrder": 7,
+    "items": [
+      {
+        "question": "I'm an existing client and need help — what's the fastest way to reach you?",
+        "answer": "Email your account contact directly, or reply to your most recent thread. For urgent things, call the number we shared during onboarding.",
+        "sortOrder": 0
+      },
+      {
+        "question": "Can I add a new service to my existing account?",
+        "answer": "Yes — just let your account contact know what you'd like to add and we'll set it up.",
+        "sortOrder": 1
+      },
+      {
+        "question": "How do I get access to my reports?",
+        "answer": "Reports are emailed monthly. If you need one resent, just ask.",
+        "sortOrder": 2
+      }
+    ]
+  },
+  {
+    "key": "privacy",
+    "label": "Data & Privacy",
+    "sortOrder": 8,
+    "items": [
+      {
+        "question": "Who owns the content and assets you create for me?",
+        "answer": "You do. Everything we create for your business — content, designs, ad accounts, social accounts — belongs to you.",
+        "sortOrder": 0
+      },
+      {
+        "question": "What data do you collect?",
+        "answer": "The information needed to do the work: contact info, business details, account access, and marketing performance data. We don't sell your data. See our Privacy Policy for full details.",
+        "sortOrder": 1
+      },
+      {
+        "question": "Do you share client information with third parties?",
+        "answer": "Only with the tools we use to do the work (e.g. Google Ads, Meta, email platforms) — never for marketing or resale.",
+        "sortOrder": 2
+      },
+      {
+        "question": "Is my account access secure?",
+        "answer": "Yes. Sensitive credentials are stored in a password manager with restricted access, and we recommend keeping ownership of critical accounts under your own login with us added as a manager.",
+        "sortOrder": 3
+      }
+    ]
+  },
+  {
+    "key": "careers",
+    "label": "Careers",
+    "sortOrder": 9,
+    "items": [
+      {
+        "question": "Are you hiring?",
+        "answer": "Often, yes. Check the Careers page for current openings. Even if nothing there fits, we like meeting good people early — send us a note.",
+        "sortOrder": 0
+      },
+      {
+        "question": "Do you take interns?",
+        "answer": "Yes — we currently work with interns across marketing, SEO, and design.",
+        "sortOrder": 1
+      }
+    ]
+  }
+]

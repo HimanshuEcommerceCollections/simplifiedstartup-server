@@ -1,0 +1,342 @@
+[
+  {
+    "term": "A/B Testing",
+    "definition": "Showing two versions of something (a page, an email, an ad) to different people at the same time to see which performs better. The winner becomes the new standard.",
+    "sortOrder": 0
+  },
+  {
+    "term": "AI Search",
+    "definition": "When people search using AI tools like ChatGPT, Gemini, Claude, or Perplexity instead of Google. Businesses can now show up (or not) inside those AI answers.",
+    "sortOrder": 1
+  },
+  {
+    "term": "Alt Text",
+    "definition": "A short description of an image added to the site's code. It helps visually impaired visitors and helps Google understand the picture.",
+    "sortOrder": 2
+  },
+  {
+    "term": "Analytics",
+    "definition": "The data that shows how people use your website — how many visitors, where they came from, what they clicked, and what they did.",
+    "sortOrder": 3
+  },
+  {
+    "term": "Anchor Text",
+    "definition": "The clickable words in a link. Good anchor text describes where the link goes (e.g. “our pricing page” rather than “click here”).",
+    "sortOrder": 4
+  },
+  {
+    "term": "Backlink",
+    "definition": "A link from another website to yours. Google treats backlinks a bit like recommendations — the more good ones you have, the more trusted your site looks.",
+    "sortOrder": 5
+  },
+  {
+    "term": "Bounce Rate",
+    "definition": "The percentage of visitors who leave after seeing only one page. A very high bounce rate can mean the page didn't match what they were looking for.",
+    "sortOrder": 6
+  },
+  {
+    "term": "Branding",
+    "definition": "The overall look, feel, and voice of your business — logo, colors, tone, messaging. It's how people recognize and remember you.",
+    "sortOrder": 7
+  },
+  {
+    "term": "Bundle",
+    "definition": "A few related services grouped together as one offer — usually easier to buy and often at a small discount vs picking each service on its own.",
+    "sortOrder": 8
+  },
+  {
+    "term": "Call-to-Action (CTA)",
+    "definition": "The one thing you want a visitor to do next — like “Book a Free Call” or “See Pricing.” Every good page has a clear CTA.",
+    "sortOrder": 9
+  },
+  {
+    "term": "Content Marketing",
+    "definition": "Creating useful articles, guides, videos, or posts that attract customers over time — instead of paying for ads.",
+    "sortOrder": 10
+  },
+  {
+    "term": "Conversion",
+    "definition": "When a visitor takes the action you wanted — filling out a form, buying, booking a call. Every campaign is measured by conversions.",
+    "sortOrder": 11
+  },
+  {
+    "term": "Conversion Rate",
+    "definition": "The percentage of visitors who convert. If 100 people visit and 3 book a call, the conversion rate is 3%.",
+    "sortOrder": 12
+  },
+  {
+    "term": "CPC (Cost Per Click)",
+    "definition": "How much you pay each time someone clicks one of your ads.",
+    "sortOrder": 13
+  },
+  {
+    "term": "CPM (Cost Per Thousand Impressions)",
+    "definition": "How much you pay to have your ad shown a thousand times, whether or not people click.",
+    "sortOrder": 14
+  },
+  {
+    "term": "CRM (Customer Relationship Management)",
+    "definition": "A tool for keeping track of your leads and customers — who they are, what they've asked about, and what stage they're at in your pipeline.",
+    "sortOrder": 15
+  },
+  {
+    "term": "CRO (Conversion Rate Optimization)",
+    "definition": "Improving a website so more visitors take action — like booking a call or making a purchase.",
+    "sortOrder": 16
+  },
+  {
+    "term": "CTR (Click-Through Rate)",
+    "definition": "The percentage of people who see something (an ad, an email, a search result) and actually click on it.",
+    "sortOrder": 17
+  },
+  {
+    "term": "Domain",
+    "definition": "Your website address — like simplifiedstartup.com. Something you own and use across your website and email.",
+    "sortOrder": 18
+  },
+  {
+    "term": "Domain Authority",
+    "definition": "A score (out of 100) that estimates how strong a website looks to search engines. Higher usually means better ranking chances.",
+    "sortOrder": 19
+  },
+  {
+    "term": "Email Marketing",
+    "definition": "Sending emails to a list of customers or prospects — newsletters, offers, updates — to keep them engaged and drive sales.",
+    "sortOrder": 20
+  },
+  {
+    "term": "Engagement",
+    "definition": "Any action people take with your content — likes, comments, shares, replies. It's a sign your content is resonating.",
+    "sortOrder": 21
+  },
+  {
+    "term": "E-E-A-T",
+    "definition": "Google's standard for good content: Experience, Expertise, Authoritativeness, and Trustworthiness. Sites that clearly show these tend to rank better.",
+    "sortOrder": 22
+  },
+  {
+    "term": "Funnel",
+    "definition": "The path someone takes from first hearing about you to becoming a customer — usually awareness, interest, decision, and action.",
+    "sortOrder": 23
+  },
+  {
+    "term": "GEO (Generative Engine Optimization)",
+    "definition": "Optimizing your content so AI tools like ChatGPT, Gemini, Claude, or Perplexity mention and recommend your business when people ask them questions.",
+    "sortOrder": 24
+  },
+  {
+    "term": "Google Ads",
+    "definition": "Paid ads that appear at the top of Google search results. You pay per click.",
+    "sortOrder": 25
+  },
+  {
+    "term": "Google Analytics",
+    "definition": "A free tool from Google that shows you how visitors are using your website.",
+    "sortOrder": 26
+  },
+  {
+    "term": "Google Business Profile",
+    "definition": "Your free business listing on Google — what people see on Google Maps and in local search results. Formerly Google My Business.",
+    "sortOrder": 27
+  },
+  {
+    "term": "Hashtag",
+    "definition": "A word or phrase preceded by # on social media. It groups posts around a topic so people searching for that topic can find them.",
+    "sortOrder": 28
+  },
+  {
+    "term": "Homepage",
+    "definition": "The main page of your website — what people usually see first. Its job is to explain who you are and where to go next.",
+    "sortOrder": 29
+  },
+  {
+    "term": "Impression",
+    "definition": "A single instance of your content or ad being shown to someone — whether or not they clicked or engaged.",
+    "sortOrder": 30
+  },
+  {
+    "term": "Influencer Marketing",
+    "definition": "Paying (or partnering with) someone who has a following on social media to promote your business to their audience.",
+    "sortOrder": 31
+  },
+  {
+    "term": "Internal Linking",
+    "definition": "Links from one page on your site to another. Helps visitors navigate and helps Google understand which pages are important.",
+    "sortOrder": 32
+  },
+  {
+    "term": "Keyword",
+    "definition": "A word or phrase people type into Google. SEO is largely about matching the keywords your customers use with the pages you create.",
+    "sortOrder": 33
+  },
+  {
+    "term": "Keyword Research",
+    "definition": "The work of finding out which keywords your customers actually search for, so your content targets the right ones.",
+    "sortOrder": 34
+  },
+  {
+    "term": "KPI (Key Performance Indicator)",
+    "definition": "The main numbers you use to measure success — like leads per month, cost per click, or search rankings.",
+    "sortOrder": 35
+  },
+  {
+    "term": "Landing Page",
+    "definition": "A single page built for one specific purpose — usually to convert visitors from an ad or campaign into leads or customers.",
+    "sortOrder": 36
+  },
+  {
+    "term": "Lead",
+    "definition": "Someone who has shown interest in your business — filled out a form, requested a quote, or booked a call.",
+    "sortOrder": 37
+  },
+  {
+    "term": "Lead Generation",
+    "definition": "The work of attracting people interested in your business and collecting their contact details so you can follow up.",
+    "sortOrder": 38
+  },
+  {
+    "term": "Local SEO",
+    "definition": "The kind of SEO that helps a business show up on Google Maps and in local search results (e.g. “coffee shop near me”).",
+    "sortOrder": 39
+  },
+  {
+    "term": "Meta Description",
+    "definition": "The short description of a page shown under its title in Google results. It doesn't affect ranking directly but does affect whether people click.",
+    "sortOrder": 40
+  },
+  {
+    "term": "Meta Title",
+    "definition": "The clickable page title shown in Google search results. One of the most important SEO elements on any page.",
+    "sortOrder": 41
+  },
+  {
+    "term": "Mobile-Friendly",
+    "definition": "A site that looks and works well on phones and tablets. Google prefers these, and most of your visitors are on mobile.",
+    "sortOrder": 42
+  },
+  {
+    "term": "Money Page",
+    "definition": "A page built around one specific service, business type, and location — like “SEO for realtors in Raleigh.” Designed to attract high-intent searches.",
+    "sortOrder": 43
+  },
+  {
+    "term": "Off-Page SEO",
+    "definition": "SEO work done off your own site — mainly earning backlinks and mentions from other trusted websites.",
+    "sortOrder": 44
+  },
+  {
+    "term": "Open Rate",
+    "definition": "The percentage of people who open an email you send. A quick health check on your subject line and audience.",
+    "sortOrder": 45
+  },
+  {
+    "term": "Organic Traffic",
+    "definition": "Visitors who come from Google's free (unpaid) search results — as opposed to paid ads or social.",
+    "sortOrder": 46
+  },
+  {
+    "term": "Package",
+    "definition": "A big all-in-one offer that covers many services together, usually at a lower price than buying each separately.",
+    "sortOrder": 47
+  },
+  {
+    "term": "Paid Search",
+    "definition": "Ads shown in search results that you pay for — the top of Google, above the free results. Also called PPC or SEM.",
+    "sortOrder": 48
+  },
+  {
+    "term": "Paid Social",
+    "definition": "Ads run on social media platforms like Facebook, Instagram, LinkedIn, or TikTok.",
+    "sortOrder": 49
+  },
+  {
+    "term": "PPC (Pay-Per-Click)",
+    "definition": "A paid advertising model where you only pay when someone clicks your ad. Google Ads and most social ads work this way.",
+    "sortOrder": 50
+  },
+  {
+    "term": "Ranking",
+    "definition": "Where your page appears in Google's results for a given keyword. Position 1 is the top, and higher is almost always better.",
+    "sortOrder": 51
+  },
+  {
+    "term": "Reach",
+    "definition": "The number of unique people who saw your content — different from impressions, which count each view.",
+    "sortOrder": 52
+  },
+  {
+    "term": "Retargeting",
+    "definition": "Ads shown to people who already visited your site — a reminder to come back and take the next step.",
+    "sortOrder": 53
+  },
+  {
+    "term": "ROI (Return on Investment)",
+    "definition": "How much money you got back compared to how much you spent. A simple way to measure whether a campaign was worth it.",
+    "sortOrder": 54
+  },
+  {
+    "term": "Schema Markup",
+    "definition": "Extra code added to a page that helps Google understand what's on it — like reviews, prices, or FAQs. Often produces the “rich results” you see in search.",
+    "sortOrder": 55
+  },
+  {
+    "term": "SEM (Search Engine Marketing)",
+    "definition": "A broad term that usually means paid search ads on Google. Sometimes used to mean SEO + paid search together.",
+    "sortOrder": 56
+  },
+  {
+    "term": "SEO (Search Engine Optimization)",
+    "definition": "The work that helps a website show up higher in Google's free (unpaid) search results.",
+    "sortOrder": 57
+  },
+  {
+    "term": "SERP (Search Engine Results Page)",
+    "definition": "The page you see after typing something into Google. What appears where decides who gets clicked.",
+    "sortOrder": 58
+  },
+  {
+    "term": "Sitemap",
+    "definition": "A file that lists all the pages on your site so Google can find and index them more easily.",
+    "sortOrder": 59
+  },
+  {
+    "term": "Social Media Management",
+    "definition": "The ongoing work of running a business's social accounts — posting, responding, and growing an audience.",
+    "sortOrder": 60
+  },
+  {
+    "term": "Target Audience",
+    "definition": "The specific group of people your marketing is meant to reach — defined by things like age, location, industry, or interests.",
+    "sortOrder": 61
+  },
+  {
+    "term": "Technical SEO",
+    "definition": "The behind-the-scenes SEO work — site speed, mobile-friendliness, clean code, and structure — that makes Google trust and understand your site.",
+    "sortOrder": 62
+  },
+  {
+    "term": "Traffic",
+    "definition": "The number of people visiting your website, from all sources combined.",
+    "sortOrder": 63
+  },
+  {
+    "term": "URL",
+    "definition": "The web address of a page — like simplifiedstartup.com/services/seo. Clean, readable URLs are better for people and search engines.",
+    "sortOrder": 64
+  },
+  {
+    "term": "UX (User Experience)",
+    "definition": "How easy and pleasant a website is to use. Good UX keeps visitors around and helps them convert.",
+    "sortOrder": 65
+  },
+  {
+    "term": "Web Design",
+    "definition": "The visual and structural design of a website — how it looks, how it's laid out, and how visitors move through it.",
+    "sortOrder": 66
+  },
+  {
+    "term": "Workflow Automation",
+    "definition": "Setting up your tools so repetitive tasks happen automatically — like follow-up emails, moving leads through your CRM, or posting to social media.",
+    "sortOrder": 67
+  }
+]

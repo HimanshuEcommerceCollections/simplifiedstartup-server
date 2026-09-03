@@ -103,7 +103,8 @@ export const careerRoleInputSchema = z.object({
   title: trimmed(140),
   type: trimmed(60),
   location: z.string().trim().max(80).optional().or(z.literal("")),
-  description: trimmed(2000),
+  description: trimmed(2000), // short plain blurb (careers-page row)
+  body: z.string().max(50_000).optional().or(z.literal("")), // rich HTML, sanitized server-side
   published: z.boolean().optional(),
   sortOrder: z.coerce.number().int().min(0).max(9999).optional(),
 });
@@ -140,6 +141,121 @@ export const CV_MIME_TYPES = [
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ] as const;
 export const CV_MAX_BYTES = 5 * 1024 * 1024;
+
+// ---------- content collections (blog / faq / glossary) ----------
+
+export const CATEGORY_COLLECTIONS = ["blog", "faq"] as const;
+export type CategoryCollection = (typeof CATEGORY_COLLECTIONS)[number];
+
+const slug = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "lowercase words separated by dashes")
+  .max(120);
+
+export const categoryInputSchema = z.object({
+  collection: z.enum(CATEGORY_COLLECTIONS),
+  key: slug,
+  label: trimmed(80),
+  sortOrder: z.coerce.number().int().min(0).max(9999).optional(),
+});
+/** key is immutable after creation — the website's chips reference it. */
+export const categoryPatchSchema = z
+  .object({ label: trimmed(80).optional(), sortOrder: z.coerce.number().int().min(0).max(9999).optional() })
+  .refine((v) => Object.keys(v).length > 0, { message: "nothing to update" });
+
+const richHtml = z.string().max(100_000);
+
+export const articleInputSchema = z.object({
+  slug,
+  title: trimmed(200),
+  summary: trimmed(600),
+  readTime: trimmed(30),
+  artwork: slug, // preset key from the website's card-art registry
+  body: richHtml.optional().or(z.literal("")),
+  featured: z.boolean().optional(),
+  published: z.boolean().optional(),
+  sortOrder: z.coerce.number().int().min(0).max(9999).optional(),
+  categoryId: z.string().min(1),
+});
+export const articlePatchSchema = articleInputSchema.partial().refine((v) => Object.keys(v).length > 0, {
+  message: "nothing to update",
+});
+
+export const articleImagePatchSchema = z
+  .object({
+    alt: z.string().trim().max(200).optional(),
+    isCover: z.boolean().optional(),
+    sortOrder: z.coerce.number().int().min(0).max(9999).optional(),
+  })
+  .refine((v) => Object.keys(v).length > 0, { message: "nothing to update" });
+
+export const faqInputSchema = z.object({
+  question: trimmed(300),
+  answer: trimmed(4000), // plain text
+  categoryId: z.string().min(1),
+  published: z.boolean().optional(),
+  sortOrder: z.coerce.number().int().min(0).max(9999).optional(),
+});
+export const faqPatchSchema = faqInputSchema.partial().refine((v) => Object.keys(v).length > 0, {
+  message: "nothing to update",
+});
+
+export const glossaryInputSchema = z.object({
+  term: trimmed(120),
+  definition: trimmed(2000),
+  published: z.boolean().optional(),
+  sortOrder: z.coerce.number().int().min(0).max(9999).optional(),
+});
+export const glossaryPatchSchema = glossaryInputSchema.partial().refine((v) => Object.keys(v).length > 0, {
+  message: "nothing to update",
+});
+
+export const IMAGE_MIME_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"] as const;
+export const IMAGE_MAX_BYTES = 4 * 1024 * 1024;
+
+export type ContentCategoryDto = {
+  id: string;
+  collection: CategoryCollection;
+  key: string;
+  label: string;
+  sortOrder: number;
+  itemCount: number;
+};
+
+export type ArticleImageDto = { id: string; url: string; alt: string; isCover: boolean; sortOrder: number };
+
+export type ArticleDto = {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string;
+  readTime: string;
+  artwork: string;
+  body: string | null;
+  featured: boolean;
+  published: boolean;
+  sortOrder: number;
+  categoryId: string;
+  categoryKey: string;
+  categoryLabel: string;
+  images: ArticleImageDto[];
+  updatedAt: string;
+};
+
+export type FaqDto = {
+  id: string;
+  question: string;
+  answer: string;
+  categoryId: string;
+  categoryKey: string;
+  categoryLabel: string;
+  published: boolean;
+  sortOrder: number;
+};
+
+export type GlossaryTermDto = { id: string; term: string; definition: string; published: boolean; sortOrder: number };
 
 // ---------- DTOs (what the API returns) ----------
 

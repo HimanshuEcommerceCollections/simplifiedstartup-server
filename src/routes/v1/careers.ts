@@ -9,6 +9,7 @@ import {
 import { db } from "../../lib/db";
 import { env } from "../../lib/env";
 import { getStorage } from "../../lib/storage";
+import { sanitizeRichText } from "../../lib/sanitize";
 import { requireAuth, requireRole } from "../../lib/auth";
 
 const idParam = z.object({ id: z.string().min(1) });
@@ -43,7 +44,7 @@ export async function careersAdminRoutes(app: FastifyInstance) {
   app.post("/career-roles", { preHandler: [recruiterOnly] }, async (request, reply) => {
     const input = careerRoleInputSchema.parse(request.body);
     const role = await db.careerRole.create({
-      data: { ...input, location: input.location || null },
+      data: { ...input, location: input.location || null, body: sanitizeRichText(input.body) },
     });
     return reply.code(201).send({ ok: true, id: role.id });
   });
@@ -55,7 +56,11 @@ export async function careersAdminRoutes(app: FastifyInstance) {
     if (!existing) return reply.code(404).send({ ok: false, error: "not found" });
     await db.careerRole.update({
       where: { id },
-      data: { ...patch, ...(patch.location !== undefined ? { location: patch.location || null } : {}) },
+      data: {
+        ...patch,
+        ...(patch.location !== undefined ? { location: patch.location || null } : {}),
+        ...(patch.body !== undefined ? { body: sanitizeRichText(patch.body) } : {}),
+      },
     });
     return { ok: true };
   });

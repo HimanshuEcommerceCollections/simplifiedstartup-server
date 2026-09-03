@@ -67,29 +67,59 @@ model Subscriber {
 
 // ---------- content collections (served to the website at build time) ----------
 
+// One table serves both blog and faq category chips, in display order.
+model ContentCategory {
+  id         String    @id @default(cuid())
+  collection String // "blog" | "faq" (contracts.CATEGORY_COLLECTIONS)
+  key        String
+  label      String
+  sortOrder  Int       @default(0)
+  articles   Article[]
+  faqs       Faq[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@unique([collection, key])
+}
+
 model Article {
-  id        String   @id @default(cuid())
-  slug      String   @unique
-  title     String
-  category  String
-  readTime  String
-  summary   String
-  featured  Boolean  @default(false)
-  published Boolean  @default(true)
-  sortOrder Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String          @id @default(cuid())
+  slug       String          @unique
+  title      String
+  summary    String // plain teaser — cards & search
+  readTime   String
+  artwork    String // card-art preset key (client-side registry); cover image overrides it
+  body       String? // sanitized HTML from the dashboard editor — powers /blog/[slug]
+  featured   Boolean         @default(false)
+  published  Boolean         @default(true)
+  sortOrder  Int             @default(0)
+  categoryId String
+  category   ContentCategory @relation(fields: [categoryId], references: [id])
+  images     ArticleImage[]
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+}
+
+model ArticleImage {
+  id        String  @id @default(cuid())
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  key       String // storage key — served publicly at GET /files/:key
+  alt       String
+  isCover   Boolean @default(false)
+  sortOrder Int     @default(0)
 }
 
 model Faq {
-  id        String   @id @default(cuid())
-  question  String
-  answer    String
-  category  String?
-  published Boolean  @default(true)
-  sortOrder Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String          @id @default(cuid())
+  question   String
+  answer     String // plain text, matching the live design
+  categoryId String
+  category   ContentCategory @relation(fields: [categoryId], references: [id])
+  published  Boolean         @default(true)
+  sortOrder  Int             @default(0)
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
 }
 
 model GlossaryTerm {
@@ -117,7 +147,8 @@ model CareerRole {
   title        String
   type         String // e.g. Full-time · Remote
   location     String?
-  description  String
+  description  String // short plain blurb shown on the careers-page row
+  body         String? // sanitized HTML — full description in the apply dialog
   published    Boolean          @default(true)
   sortOrder    Int              @default(0)
   applications JobApplication[]

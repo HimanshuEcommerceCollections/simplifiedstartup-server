@@ -1,4 +1,5 @@
 import type { FastifyInstance } from "fastify";
+import { z } from "zod";
 import {
   CV_MAX_BYTES,
   CV_MIME_TYPES,
@@ -63,9 +64,91 @@ export async function publicRoutes(app: FastifyInstance) {
     const roles = await db.careerRole.findMany({
       where: { published: true },
       orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
-      select: { id: true, title: true, type: true, location: true, description: true },
+      select: { id: true, title: true, type: true, location: true, description: true, body: true },
     });
     return { ok: true, items: roles };
+  });
+
+  /** Published blog cards + category chips — consumed by the website at build time. */
+  app.get("/content/articles", async () => {
+    const [categories, articles] = await Promise.all([
+      db.contentCategory.findMany({ where: { collection: "blog" }, orderBy: { sortOrder: "asc" }, select: { key: true, label: true } }),
+      db.article.findMany({
+        where: { published: true },
+        orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
+        include: { category: { select: { key: true, label: true } }, images: { orderBy: { sortOrder: "asc" } } },
+      }),
+    ]);
+    return {
+      ok: true,
+      categories,
+      items: articles.map((a) => {
+        const cover = a.images.find((img) => img.isCover) ?? null;
+        return {
+          slug: a.slug,
+          title: a.title,
+          summary: a.summary,
+          readTime: a.readTime,
+          artwork: a.artwork,
+          featured: a.featured,
+          categoryKey: a.category.key,
+          categoryLabel: a.category.label,
+          hasBody: !!a.body,
+          cover: cover ? { url: `/files/${cover.key}`, alt: cover.alt } : null,
+        };
+      }),
+    };
+  });
+
+  /** One published article with its body — powers /blog/[slug]. */
+  app.get("/content/articles/:slug", async (request, reply) => {
+    const { slug } = z.object({ slug: z.string().min(1).max(160) }).parse(request.params);
+    const a = await db.article.findFirst({
+      where: { slug, published: true },
+      include: { category: { select: { key: true, label: true } }, images: { orderBy: { sortOrder: "asc" } } },
+    });
+    if (!a) return reply.code(404).send({ ok: false, error: "not found" });
+    return {
+      ok: true,
+      article: {
+        slug: a.slug,
+        title: a.title,
+        summary: a.summary,
+        readTime: a.readTime,
+        artwork: a.artwork,
+        featured: a.featured,
+        categoryKey: a.category.key,
+        categoryLabel: a.category.label,
+        body: a.body,
+        publishedAt: a.createdAt.toISOString(),
+        images: a.images.map((img) => ({ url: `/files/${img.key}`, alt: img.alt, isCover: img.isCover })),
+      },
+    };
+  });
+
+  /** Published FAQ categories + questions — consumed by the website at build time. */
+  app.get("/content/faqs", async () => {
+    const categories = await db.contentCategory.findMany({
+      where: { collection: "faq" },
+      orderBy: { sortOrder: "asc" },
+      include: { faqs: { where: { published: true }, orderBy: { sortOrder: "asc" }, select: { question: true, answer: true } } },
+    });
+    return {
+      ok: true,
+      categories: categories
+        .filter((c) => c.faqs.length > 0)
+        .map((c) => ({ key: c.key, label: c.label, items: c.faqs.map((f) => ({ q: f.question, a: f.answer })) })),
+    };
+  });
+
+  /** Published glossary terms — the website groups them by letter. */
+  app.get("/content/glossary", async () => {
+    const items = await db.glossaryTerm.findMany({
+      where: { published: true },
+      orderBy: { term: "asc" },
+      select: { term: true, definition: true },
+    });
+    return { ok: true, items };
   });
 
   /** Job application (multipart: fields + optional `cv` file). */
@@ -134,5 +217,24 @@ export async function publicRoutes(app: FastifyInstance) {
     }
 
     return reply.code(201).send({ ok: true, id: application.id });
+  });
+}
+
+/** Public image serving at /files/:key — root-level, no /api/v1 prefix (never CVs: image extensions only). */
+export async function filesRoutes(app: FastifyInstance) {
+  app.get("/files/:key", async (request, reply) => {
+    const { key } = z.object({ key: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]*$/).max(200) }).parse(request.params);
+    const ext = key.split(".").pop()?.toLowerCase() ?? "";
+    const mime: Record<string, string> = { jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp", gif: "image/gif" };
+    if (!mime[ext]) return reply.code(404).send({ ok: false, error: "not found" });
+    try {
+      const { stream, size } = await getStorage().openRead(key);
+      reply.header("Content-Type", mime[ext]);
+      reply.header("Content-Length", size);
+      reply.header("Cache-Control", "public, max-age=31536000, immutable");
+      return reply.send(stream);
+    } catch {
+      return reply.code(404).send({ ok: false, error: "not found" });
+    }
   });
 }
