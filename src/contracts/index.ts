@@ -8,7 +8,7 @@ import { z } from "zod";
 
 // ---------- roles & statuses (SQLite has no enums — these arrays are the law) ----------
 
-export const ROLES = ["ADMIN", "EDITOR", "RECRUITER", "VIEWER"] as const;
+export const ROLES = ["ADMIN", "EDITOR", "CONTENT_WRITER", "RECRUITER", "VIEWER"] as const;
 export type Role = (typeof ROLES)[number];
 
 export const USER_STATUSES = ["invited", "active", "disabled"] as const;

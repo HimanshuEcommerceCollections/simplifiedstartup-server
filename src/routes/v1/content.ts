@@ -62,11 +62,11 @@ async function saveImage(request: FastifyRequest, reply: FastifyReply): Promise<
   return { key, alt: (fields.alt ?? "").slice(0, 200) };
 }
 
-/** Blog / FAQ / glossary management — ADMIN + EDITOR write, VIEWER read. */
+/** Blog / FAQ / glossary management — ADMIN + EDITOR + CONTENT_WRITER write, VIEWER read. */
 export async function contentAdminRoutes(app: FastifyInstance) {
   app.addHook("preHandler", requireAuth);
-  const canRead = requireRole("ADMIN", "EDITOR", "VIEWER");
-  const canWrite = requireRole("ADMIN", "EDITOR");
+  const canRead = requireRole("ADMIN", "EDITOR", "CONTENT_WRITER", "VIEWER");
+  const canWrite = requireRole("ADMIN", "EDITOR", "CONTENT_WRITER");
 
   // ---------- categories ----------
 

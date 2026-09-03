@@ -21,7 +21,7 @@ const idParam = z.object({ id: z.string().min(1) });
 export async function careersAdminRoutes(app: FastifyInstance) {
   app.addHook("preHandler", requireAuth);
   const recruiterOnly = requireRole("ADMIN", "RECRUITER");
-  const canPublish = requireRole("ADMIN", "EDITOR", "RECRUITER");
+  const canPublish = requireRole("ADMIN", "EDITOR", "CONTENT_WRITER", "RECRUITER");
 
   // ---------- job postings ----------
 
