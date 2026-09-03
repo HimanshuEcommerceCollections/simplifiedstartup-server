@@ -44,6 +44,97 @@ export const subscriberInputSchema = z.object({
 });
 export type SubscriberInput = z.infer<typeof subscriberInputSchema>;
 
+// ---------- auth & team ----------
+
+export const loginSchema = z.object({
+  email: z.string().trim().email().max(200),
+  password: z.string().min(1).max(200),
+});
+export type LoginInput = z.infer<typeof loginSchema>;
+
+export const inviteSchema = z.object({
+  email: z.string().trim().email().max(200),
+  role: z.enum(ROLES),
+});
+export type InviteInput = z.infer<typeof inviteSchema>;
+
+export const acceptInviteSchema = z.object({
+  token: z.string().min(16).max(200),
+  name: z.string().trim().min(1).max(120),
+  password: z.string().min(8).max(100),
+});
+export type AcceptInviteInput = z.infer<typeof acceptInviteSchema>;
+
+export const forgotPasswordSchema = z.object({ email: z.string().trim().email().max(200) });
+export const resetPasswordSchema = z.object({
+  token: z.string().min(16).max(200),
+  password: z.string().min(8).max(100),
+});
+
+export const userPatchSchema = z
+  .object({
+    role: z.enum(ROLES).optional(),
+    status: z.enum(["active", "disabled"]).optional(),
+  })
+  .refine((v) => v.role !== undefined || v.status !== undefined, { message: "nothing to update" });
+export type UserPatchInput = z.infer<typeof userPatchSchema>;
+
+// ---------- admin: leads & subscribers ----------
+
+export const listQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  pageSize: z.coerce.number().int().min(1).max(100).default(20),
+  q: z.string().trim().max(200).optional(),
+  status: z.enum(LEAD_STATUSES).optional(),
+});
+export type ListQuery = z.infer<typeof listQuerySchema>;
+
+export const leadPatchSchema = z
+  .object({
+    status: z.enum(LEAD_STATUSES).optional(),
+    notes: z.string().max(4000).optional(),
+  })
+  .refine((v) => v.status !== undefined || v.notes !== undefined, { message: "nothing to update" });
+export type LeadPatchInput = z.infer<typeof leadPatchSchema>;
+
+// ---------- DTOs (what the API returns) ----------
+
+export type SessionUser = { id: string; email: string; name: string | null; role: Role };
+
+export type UserDto = {
+  id: string;
+  email: string;
+  name: string | null;
+  role: Role;
+  status: UserStatus;
+  createdAt: string;
+  invitedByName?: string | null;
+};
+
+export type LeadDto = {
+  id: string;
+  name: string;
+  email: string;
+  business: string | null;
+  stage: string;
+  need: string;
+  message: string | null;
+  status: LeadStatus;
+  notes: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type SubscriberDto = { id: string; email: string; sourcePage: string | null; createdAt: string };
+
+export type StatsDto = {
+  leads: { total: number } & Record<LeadStatus, number>;
+  subscribers: number;
+  users: number;
+};
+
+export type Paged<T> = { items: T[]; total: number; page: number; pageSize: number };
+
 // ---------- response envelope ----------
 
 export type ApiOk<T = Record<string, never>> = { ok: true } & T;

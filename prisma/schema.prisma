@@ -23,6 +23,8 @@ model User {
   status          String    @default("invited") // invited | active | disabled
   inviteTokenHash String?
   inviteExpiresAt DateTime?
+  resetTokenHash  String?
+  resetExpiresAt  DateTime?
   invitedById     String?
   invitedBy       User?     @relation("UserInvites", fields: [invitedById], references: [id])
   invitees        User[]    @relation("UserInvites")

@@ -5,6 +5,8 @@ import rateLimit from "@fastify/rate-limit";
 import { ZodError } from "zod";
 import { env } from "./lib/env";
 import { publicRoutes } from "./routes/v1/public";
+import { authRoutes } from "./routes/v1/auth";
+import { adminRoutes } from "./routes/v1/admin";
 
 export async function buildApp() {
   const app = Fastify({
@@ -22,6 +24,12 @@ export async function buildApp() {
   await app.register(cookie);
   await app.register(rateLimit, { global: true, max: 100, timeWindow: "1 minute" });
 
+  // Accept body-less / non-JSON POSTs (e.g. logout with no body) instead of 415ing;
+  // routes that expect a body still 400 through their zod schemas.
+  app.addContentTypeParser("*", { parseAs: "string" }, (_request, body, done) => {
+    done(null, body.length ? body : null);
+  });
+
   app.setErrorHandler((error: unknown, request, reply) => {
     if (error instanceof ZodError) {
       return reply.code(400).send({ ok: false, error: "validation", issues: error.flatten().fieldErrors });
@@ -36,6 +44,8 @@ export async function buildApp() {
 
   app.get("/health", async () => ({ ok: true, service: "simplifiedstartup-server" }));
   await app.register(publicRoutes, { prefix: "/api/v1" });
+  await app.register(authRoutes, { prefix: "/api/v1/auth" });
+  await app.register(adminRoutes, { prefix: "/api/v1/admin" });
 
   return app;
 }
