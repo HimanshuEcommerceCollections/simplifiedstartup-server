@@ -36,4 +36,25 @@ async function main() {
   console.log(`Created ADMIN ${email}. Change the password after first login.`);
 }
 
-main().finally(() => db.$disconnect());
+/** The career postings the website shipped with — seeded so the build-time fetch matches. */
+const WEBSITE_ROLES = [
+  { title: "Growth Marketer", type: "Full-time", description: "Own SEO, paid, and content programs for a handful of startups end to end." },
+  { title: "Web Developer (Front-end)", type: "Full-time", description: "Design-minded builder shipping fast, conversion-focused sites." },
+  { title: "Brand & Content Designer", type: "Contract → Full-time", description: "Identity systems, landing pages, and content that looks like the leader in the space." },
+  { title: "AI Automation Engineer", type: "Full-time", description: "Build workflows and agents that take real busywork off clients' plates." },
+  { title: "Virtual Assistant / Ops Specialist", type: "Full-time", description: "Senior support across admin, inbox, and client operations." },
+];
+
+async function seedCareerRoles() {
+  for (const [i, role] of WEBSITE_ROLES.entries()) {
+    const existing = await db.careerRole.findFirst({ where: { title: role.title } });
+    if (!existing) {
+      await db.careerRole.create({ data: { ...role, location: "Remote", sortOrder: i } });
+      console.log(`Seeded career role: ${role.title}`);
+    }
+  }
+}
+
+main()
+  .then(seedCareerRoles)
+  .finally(() => db.$disconnect());

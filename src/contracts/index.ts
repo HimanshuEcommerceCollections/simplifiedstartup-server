@@ -97,7 +97,83 @@ export const leadPatchSchema = z
   .refine((v) => v.status !== undefined || v.notes !== undefined, { message: "nothing to update" });
 export type LeadPatchInput = z.infer<typeof leadPatchSchema>;
 
+// ---------- careers ----------
+
+export const careerRoleInputSchema = z.object({
+  title: trimmed(140),
+  type: trimmed(60),
+  location: z.string().trim().max(80).optional().or(z.literal("")),
+  description: trimmed(2000),
+  published: z.boolean().optional(),
+  sortOrder: z.coerce.number().int().min(0).max(9999).optional(),
+});
+export type CareerRoleInput = z.infer<typeof careerRoleInputSchema>;
+
+export const careerRolePatchSchema = careerRoleInputSchema.partial().refine((v) => Object.keys(v).length > 0, {
+  message: "nothing to update",
+});
+
+/** POST /api/v1/applications — multipart fields (the optional `cv` file rides alongside). */
+export const applicationInputSchema = z.object({
+  name: trimmed(120),
+  email: z.string().trim().email().max(200),
+  phone: z.string().trim().max(40).optional().or(z.literal("")),
+  portfolioUrl: z.string().trim().max(300).optional().or(z.literal("")),
+  message: z.string().trim().max(4000).optional().or(z.literal("")),
+  roleId: z.string().trim().max(64).optional().or(z.literal("")),
+  company: z.string().max(200).optional(), // honeypot
+});
+export type ApplicationInput = z.infer<typeof applicationInputSchema>;
+
+export const applicationPatchSchema = z.object({ status: z.enum(APPLICATION_STATUSES) });
+
+export const applicationListQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  pageSize: z.coerce.number().int().min(1).max(100).default(20),
+  status: z.enum(APPLICATION_STATUSES).optional(),
+  roleId: z.string().max(64).optional(),
+});
+
+export const CV_MIME_TYPES = [
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+] as const;
+export const CV_MAX_BYTES = 5 * 1024 * 1024;
+
 // ---------- DTOs (what the API returns) ----------
+
+export type CareerRoleDto = {
+  id: string;
+  title: string;
+  type: string;
+  location: string | null;
+  description: string;
+  published: boolean;
+  sortOrder: number;
+  applicationCount?: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+/** What the website consumes at build time. */
+export type PublicCareerRole = { id: string; title: string; type: string; location: string | null; description: string };
+
+export type JobApplicationDto = {
+  id: string;
+  roleId: string | null;
+  roleTitle: string | null;
+  name: string;
+  email: string;
+  phone: string | null;
+  portfolioUrl: string | null;
+  hasCv: boolean;
+  message: string | null;
+  status: ApplicationStatus;
+  createdAt: string;
+};
+
+export type PublishStatusDto = { hookConfigured: boolean; lastPublishedAt: string | null; lastPublishedBy: string | null };
 
 export type SessionUser = { id: string; email: string; name: string | null; role: Role };
 

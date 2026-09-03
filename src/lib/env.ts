@@ -24,6 +24,11 @@ const envSchema = z.object({
 
   DASHBOARD_URL: z.string().url().default("http://localhost:5173"),
 
+  /** Where uploaded files (CVs) live — the local-disk storage provider's root. */
+  UPLOAD_DIR: z.string().default("./uploads"),
+  /** Optional: POSTed on "Publish to website" to trigger a static rebuild. */
+  WEBSITE_DEPLOY_HOOK_URL: z.string().url().optional(),
+
   SEED_ADMIN_EMAIL: z.string().email().optional(),
   SEED_ADMIN_NAME: z.string().optional(),
   SEED_ADMIN_PASSWORD: z.string().min(8).optional(),

@@ -102,6 +102,14 @@ model GlossaryTerm {
   updatedAt  DateTime @updatedAt
 }
 
+// ---------- misc ----------
+
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
 // ---------- careers (RECRUITER's domain) ----------
 
 model CareerRole {

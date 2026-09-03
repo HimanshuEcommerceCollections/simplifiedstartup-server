@@ -1,7 +1,14 @@
 import type { FastifyInstance } from "fastify";
-import { leadInputSchema, subscriberInputSchema } from "../../contracts";
+import {
+  CV_MAX_BYTES,
+  CV_MIME_TYPES,
+  applicationInputSchema,
+  leadInputSchema,
+  subscriberInputSchema,
+} from "../../contracts";
 import { db } from "../../lib/db";
 import { getMailer, templates } from "../../lib/mail";
+import { getStorage } from "../../lib/storage";
 import { env } from "../../lib/env";
 
 /**
@@ -49,5 +56,83 @@ export async function publicRoutes(app: FastifyInstance) {
     });
 
     return reply.code(201).send({ ok: true });
+  });
+
+  /** Published career roles — consumed by the website at build time. */
+  app.get("/content/career-roles", async () => {
+    const roles = await db.careerRole.findMany({
+      where: { published: true },
+      orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+      select: { id: true, title: true, type: true, location: true, description: true },
+    });
+    return { ok: true, items: roles };
+  });
+
+  /** Job application (multipart: fields + optional `cv` file). */
+  app.post("/applications", { config: intakeLimit }, async (request, reply) => {
+    if (!request.isMultipart()) {
+      return reply.code(400).send({ ok: false, error: "expected multipart/form-data" });
+    }
+
+    const fields: Record<string, string> = {};
+    let cv: { buffer: Buffer; filename: string; mimetype: string } | null = null;
+
+    for await (const part of request.parts()) {
+      if (part.type === "file") {
+        if (part.fieldname !== "cv") {
+          part.file.resume(); // drain and ignore unexpected files
+          continue;
+        }
+        const buffer = await part.toBuffer(); // throws 413 past the multipart fileSize limit
+        if (buffer.length > 0) cv = { buffer, filename: part.filename ?? "cv", mimetype: part.mimetype };
+      } else {
+        fields[part.fieldname] = String(part.value ?? "");
+      }
+    }
+
+    const input = applicationInputSchema.parse(fields);
+    if (input.company) return reply.code(201).send({ ok: true }); // honeypot
+
+    if (cv && !CV_MIME_TYPES.includes(cv.mimetype as (typeof CV_MIME_TYPES)[number])) {
+      return reply.code(400).send({ ok: false, error: "CV must be a PDF or Word document" });
+    }
+    if (cv && cv.buffer.length > CV_MAX_BYTES) {
+      return reply.code(413).send({ ok: false, error: "CV is larger than 5MB" });
+    }
+
+    // A stale/unknown roleId (e.g. role unpublished since the page was built) degrades
+    // to a general application rather than failing the applicant.
+    let roleId: string | null = null;
+    if (input.roleId) {
+      const role = await db.careerRole.findUnique({ where: { id: input.roleId } });
+      roleId = role?.id ?? null;
+    }
+
+    const cvPath = cv ? (await getStorage().save(cv)).key : null;
+    const application = await db.jobApplication.create({
+      data: {
+        roleId,
+        name: input.name,
+        email: input.email,
+        phone: input.phone || null,
+        portfolioUrl: input.portfolioUrl || null,
+        message: input.message || null,
+        cvPath,
+      },
+    });
+
+    try {
+      const role = roleId ? await db.careerRole.findUnique({ where: { id: roleId } }) : null;
+      await getMailer().send({
+        to: env.NOTIFY_EMAIL,
+        subject: `New job application — ${input.name}${role ? ` (${role.title})` : " (general)"}`,
+        html: `<p><b>${input.name}</b> (${input.email}) applied${role ? ` for <b>${role.title}</b>` : " (general application)"}.${cv ? " CV attached in the dashboard." : ""}</p>`,
+        text: `${input.name} (${input.email}) applied${role ? ` for ${role.title}` : " (general)"}.`,
+      });
+    } catch (err) {
+      request.log.error({ err }, "application notification email failed");
+    }
+
+    return reply.code(201).send({ ok: true, id: application.id });
   });
 }
