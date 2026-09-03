@@ -1,0 +1,131 @@
+// Local dev runs on SQLite (no Docker on this machine). SQLite has no enum
+// support, so role/status columns are Strings validated against the const
+// arrays in src/contracts — switching this datasource to postgresql later is
+// a provider change plus a fresh migration.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- team (dashboard is invite-only) ----------
+
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  name            String?
+  passwordHash    String? // null until the invite is accepted
+  role            String // ADMIN | EDITOR | RECRUITER | VIEWER (contracts.ROLES)
+  status          String    @default("invited") // invited | active | disabled
+  inviteTokenHash String?
+  inviteExpiresAt DateTime?
+  invitedById     String?
+  invitedBy       User?     @relation("UserInvites", fields: [invitedById], references: [id])
+  invitees        User[]    @relation("UserInvites")
+  sessions        Session[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+// ---------- website form intake ----------
+
+model Lead {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  business  String?
+  stage     String
+  need      String
+  message   String?
+  status    String   @default("new") // new | contacted | booked | won | lost (contracts.LEAD_STATUSES)
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Subscriber {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  sourcePage String?
+  createdAt  DateTime @default(now())
+}
+
+// ---------- content collections (served to the website at build time) ----------
+
+model Article {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  category  String
+  readTime  String
+  summary   String
+  featured  Boolean  @default(false)
+  published Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  category  String?
+  published Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model GlossaryTerm {
+  id         String   @id @default(cuid())
+  term       String
+  definition String
+  published  Boolean  @default(true)
+  sortOrder  Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// ---------- careers (RECRUITER's domain) ----------
+
+model CareerRole {
+  id           String           @id @default(cuid())
+  title        String
+  type         String // e.g. Full-time · Remote
+  location     String?
+  description  String
+  published    Boolean          @default(true)
+  sortOrder    Int              @default(0)
+  applications JobApplication[]
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+model JobApplication {
+  id           String      @id @default(cuid())
+  roleId       String? // null = general application
+  role         CareerRole? @relation(fields: [roleId], references: [id], onDelete: SetNull)
+  name         String
+  email        String
+  phone        String?
+  portfolioUrl String?
+  cvPath       String? // storage-abstraction path (local disk now, S3 later)
+  message      String?
+  status       String      @default("new") // new | reviewed | shortlisted | hired | rejected
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
