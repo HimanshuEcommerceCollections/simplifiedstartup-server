@@ -1,14 +1,14 @@
-// Local dev runs on SQLite (no Docker on this machine). SQLite has no enum
-// support, so role/status columns are Strings validated against the const
-// arrays in src/contracts — switching this datasource to postgresql later is
-// a provider change plus a fresh migration.
+// Prisma Postgres (Vercel marketplace). Role/status columns stay Strings
+// validated against the const arrays in src/contracts (they predate the
+// Postgres switch); promoting them to native enums is an optional later
+// migration.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 

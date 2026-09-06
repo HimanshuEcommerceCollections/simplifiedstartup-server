@@ -23,10 +23,13 @@ export async function createSession(reply: FastifyReply, userId: string) {
   await db.session.create({
     data: { tokenHash: hashToken(token), userId, expiresAt: new Date(Date.now() + SESSION_TTL_MS) },
   });
+  // In production the dashboard and API sit on different *.vercel.app
+  // subdomains — a public-suffix boundary, so the browser treats them as
+  // cross-site and only sends the cookie with SameSite=None (HTTPS required).
   reply.setCookie(SESSION_COOKIE, token, {
     path: "/",
     httpOnly: true,
-    sameSite: "lax",
+    sameSite: env.NODE_ENV === "production" ? "none" : "lax",
     secure: env.NODE_ENV === "production",
     maxAge: SESSION_TTL_MS / 1000,
   });

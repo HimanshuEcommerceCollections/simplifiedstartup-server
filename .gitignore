@@ -5,3 +5,6 @@ prisma/*.db
 prisma/*.db-journal
 uploads/
 *.log
+
+.vercel
+.env*
