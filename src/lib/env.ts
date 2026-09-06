@@ -24,6 +24,10 @@ const envSchema = z.object({
 
   DASHBOARD_URL: z.string().url().default("http://localhost:5173"),
 
+  /** Storage provider override (defaults to blob when BLOB_READ_WRITE_TOKEN is set, else local). */
+  STORAGE_PROVIDER: z.enum(["local", "blob"]).optional(),
+  /** Vercel Blob access token — auto-injected on Vercel, copied into .env for local dev. */
+  BLOB_READ_WRITE_TOKEN: z.string().optional(),
   /** Where uploaded files (CVs) live — the local-disk storage provider's root. */
   UPLOAD_DIR: z.string().default("./uploads"),
   /** Optional: POSTed on "Publish to website" to trigger a static rebuild. */
