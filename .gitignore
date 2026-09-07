@@ -4,6 +4,8 @@ dist/
 prisma/*.db
 prisma/*.db-journal
 uploads/
+# local DB+blob snapshots (hold real user data — never commit)
+snapshots/
 *.log
 
 .vercel

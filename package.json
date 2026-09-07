@@ -13,6 +13,8 @@
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
+    "db:snapshot": "tsx scripts/db-snapshot.ts",
+    "db:restore": "tsx scripts/db-restore.ts",
     "db:studio": "prisma studio",
     "peek": "tsx scripts/peek.ts"
   },
