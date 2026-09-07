@@ -8,7 +8,6 @@ import {
 } from "../../contracts";
 import { db } from "../../lib/db";
 import { env } from "../../lib/env";
-import { getStorage } from "../../lib/storage";
 import { sanitizeRichText } from "../../lib/sanitize";
 import { requireAuth, requireRole } from "../../lib/auth";
 
@@ -89,11 +88,10 @@ export async function careersAdminRoutes(app: FastifyInstance) {
     ]);
     return {
       ok: true,
-      items: rows.map(({ role, cvPath, ...a }) => ({
+      items: rows.map(({ role, ...a }) => ({
         ...a,
         createdAt: a.createdAt.toISOString(),
         roleTitle: role?.title ?? null,
-        hasCv: !!cvPath,
       })),
       total,
       page,
@@ -112,22 +110,8 @@ export async function careersAdminRoutes(app: FastifyInstance) {
 
   app.delete("/applications/:id", { preHandler: [recruiterOnly] }, async (request, reply) => {
     const { id } = idParam.parse(request.params);
-    const existing = await db.jobApplication.findUnique({ where: { id } });
-    if (existing?.cvPath) await getStorage().remove(existing.cvPath);
     await db.jobApplication.deleteMany({ where: { id } });
     return reply.send({ ok: true });
-  });
-
-  app.get("/applications/:id/cv", { preHandler: [recruiterOnly] }, async (request, reply) => {
-    const { id } = idParam.parse(request.params);
-    const application = await db.jobApplication.findUnique({ where: { id } });
-    if (!application?.cvPath) return reply.code(404).send({ ok: false, error: "no CV on this application" });
-    const { stream, size } = await getStorage().openRead(application.cvPath);
-    const ext = application.cvPath.split(".").pop() ?? "pdf";
-    reply.header("Content-Type", "application/octet-stream");
-    reply.header("Content-Length", size);
-    reply.header("Content-Disposition", `attachment; filename="cv-${application.name.replace(/[^a-zA-Z0-9._-]+/g, "_")}.${ext}"`);
-    return reply.send(stream);
   });
 
   // ---------- publish to website ----------

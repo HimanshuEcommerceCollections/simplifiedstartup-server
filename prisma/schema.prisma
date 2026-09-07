@@ -164,7 +164,7 @@ model JobApplication {
   email        String
   phone        String?
   portfolioUrl String?
-  cvPath       String? // storage-abstraction path (local disk now, S3 later)
+  cvUrl        String? // candidate-shared link (Google Drive etc.); required at intake
   message      String?
   status       String      @default("new") // new | reviewed | shortlisted | hired | rejected
   createdAt    DateTime    @default(now())

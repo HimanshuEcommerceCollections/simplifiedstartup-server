@@ -114,12 +114,18 @@ export const careerRolePatchSchema = careerRoleInputSchema.partial().refine((v) 
   message: "nothing to update",
 });
 
-/** POST /api/v1/applications — multipart fields (the optional `cv` file rides alongside). */
+/** POST /api/v1/applications — JSON body; the CV arrives as a shared link (Drive etc.), not a file. */
 export const applicationInputSchema = z.object({
   name: trimmed(120),
   email: z.string().trim().email().max(200),
   phone: z.string().trim().max(40).optional().or(z.literal("")),
   portfolioUrl: z.string().trim().max(300).optional().or(z.literal("")),
+  cvUrl: z
+    .string()
+    .trim()
+    .url()
+    .max(500)
+    .refine((u) => u.startsWith("https://") || u.startsWith("http://"), { message: "CV link must be a web URL" }),
   message: z.string().trim().max(4000).optional().or(z.literal("")),
   roleId: z.string().trim().max(64).optional().or(z.literal("")),
   company: z.string().max(200).optional(), // honeypot
@@ -134,13 +140,6 @@ export const applicationListQuerySchema = z.object({
   status: z.enum(APPLICATION_STATUSES).optional(),
   roleId: z.string().max(64).optional(),
 });
-
-export const CV_MIME_TYPES = [
-  "application/pdf",
-  "application/msword",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-] as const;
-export const CV_MAX_BYTES = 5 * 1024 * 1024;
 
 // ---------- content collections (blog / faq / glossary) ----------
 
@@ -283,7 +282,7 @@ export type JobApplicationDto = {
   email: string;
   phone: string | null;
   portfolioUrl: string | null;
-  hasCv: boolean;
+  cvUrl: string | null;
   message: string | null;
   status: ApplicationStatus;
   createdAt: string;
